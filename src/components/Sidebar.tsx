@@ -1,10 +1,9 @@
-import React from "react"
 import { Button } from "./ui/button"
-import { Calendar } from "./ui/calendar"
 import { Checkbox } from "./ui/checkbox"
+import Smallcalendar from "./Smallcalendar"
+
 
 function Sidebar() {
-    const [date, setDate] = React.useState<Date | undefined>(new Date())
 
     return (
         <div className="h-full w-72 flex gap-1 flex-col border-r-2">
@@ -21,16 +20,11 @@ function Sidebar() {
                     <span className="text-lg font-semibold">Create</span>
                 </div>
             </Button>
-            <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border"
-            />
+            <Smallcalendar />
             <div className="p-4 h-full flex gap-2 flex-col border rounded-md overflow-y-scroll">
                 <span className="text-sm font-semibold">My calender</span>
-                <div className="flex gap-1.5 flex-col">
-                    <div className="flex w-full cursor-pointer items-center space-x-2 overflow-hidden">
+                <div className="flex gap-2 flex-col">
+                    <div className="p-1 flex w-full cursor-pointer items-center space-x-2 overflow-hidden">
                         <Checkbox
                             id="terms"
                             className="border-blue-500 data-[state=checked]:bg-blue-500"
@@ -42,7 +36,7 @@ function Sidebar() {
                             Terms
                         </label>
                     </div>
-                    <div className="flex w-full cursor-pointer items-center space-x-2 overflow-hidden">
+                    <div className="p-1 flex w-full cursor-pointer items-center space-x-2 overflow-hidden">
                         <Checkbox
                             id="conditions"
                             className="border-yellow-500 data-[state=checked]:bg-yellow-500"

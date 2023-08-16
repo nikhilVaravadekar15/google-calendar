@@ -5,15 +5,21 @@ import dayjs from 'dayjs'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import Content from './components/Content'
-import { getMonth } from './lib/helper'
+import { getValidMonth } from './lib/helper'
+import GlobalContext, { TGlobalContext } from './context/GlobalContext'
 
 
 function App() {
 
-  const [currentMonth, setCurrentMonth] = React.useState<dayjs.Dayjs[][]>(getMonth())
+  const { currentDate } = React.useContext<TGlobalContext>(GlobalContext)
+  const [currentMonth, setCurrentMonth] = React.useState<dayjs.Dayjs[][]>(getValidMonth(currentDate.getMonth()))
+
+  React.useEffect(() => {
+    setCurrentMonth(getValidMonth(currentDate.getMonth()))
+  }, [currentDate])
 
   return (
-    <main className="h-screen w-screen flex flex-col">
+    <main className="h-screen w-screen flex flex-col overflow-hidden">
       <Header />
       <div className="flex h-[calc(100%-64px)]">
         <Sidebar />
