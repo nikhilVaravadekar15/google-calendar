@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import './App.css'
 import React from 'react'
 import dayjs from 'dayjs'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
-import Content from './components/Content'
+import CalendarTable from './components/CalendarTable'
 import { getValidMonth } from './lib/helper'
 import GlobalContext, { TGlobalContext } from './context/GlobalContext'
 
@@ -12,10 +11,10 @@ import GlobalContext, { TGlobalContext } from './context/GlobalContext'
 function App() {
 
   const { currentDate } = React.useContext<TGlobalContext>(GlobalContext)
-  const [currentMonth, setCurrentMonth] = React.useState<dayjs.Dayjs[][]>(getValidMonth(currentDate.getMonth()))
+  const [currentMonth, setCurrentMonth] = React.useState<dayjs.Dayjs[][]>(getValidMonth(currentDate.month()))
 
   React.useEffect(() => {
-    setCurrentMonth(getValidMonth(currentDate.getMonth()))
+    setCurrentMonth(getValidMonth(currentDate.month()))
   }, [currentDate])
 
   return (
@@ -23,7 +22,7 @@ function App() {
       <Header />
       <div className="flex h-[calc(100%-64px)]">
         <Sidebar />
-        <Content
+        <CalendarTable
           month={currentMonth}
         />
       </div>

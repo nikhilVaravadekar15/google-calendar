@@ -10,7 +10,7 @@ type TContentProps = {
     month: dayjs.Dayjs[][]
 }
 
-function Content({ month }: TContentProps) {
+function CalendarTable({ month }: TContentProps) {
 
     const { currentDate } = React.useContext<TGlobalContext>(GlobalContext)
 
@@ -60,6 +60,7 @@ function Day({ row, col }: TDayProps) {
     return (
         <EventModal
             column={col}
+            dialogTriggerClassWrapper="border rounded flex justify-center"
         >
             <div className="flex flex-col">
                 <div className="flex flex-col items-center">
@@ -79,4 +80,4 @@ function Day({ row, col }: TDayProps) {
     )
 }
 
-export default Content
+export default CalendarTable

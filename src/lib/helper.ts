@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import dayjs from "dayjs";
 
 export function getValidMonth(month: number = dayjs().month()) {

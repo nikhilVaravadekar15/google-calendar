@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import dayjs from 'dayjs'
 import {
@@ -18,7 +19,7 @@ import GlobalContext, { TGlobalContext } from '../context/GlobalContext'
 
 
 function Header() {
-    const { currentDate, setCurrentDate } = React.useContext<TGlobalContext>(GlobalContext)
+    const { currentDate, setCurrentDate, setSelectedDate } = React.useContext<TGlobalContext>(GlobalContext)
 
     return (
         <header className="h-16 w-full flex gap-6 items-center border shadow-md">
@@ -32,11 +33,12 @@ function Header() {
                 <h1 className="text-xl text-gray-500 font-bold">Calender</h1>
             </div>
             <Button
-                disabled={currentDate.getMonth() === dayjs().month() ? true : false}
+                disabled={currentDate.month() === dayjs().month() ? true : false}
                 variant={"outline"}
                 className="px-4 py-2 border rounded-md text-sm font-semibold cursor-pointer disabled:cursor-not-allowed"
                 onClick={() => {
-                    setCurrentDate(dayjs().toDate())
+                    setCurrentDate(dayjs())
+                    setSelectedDate(dayjs())
                 }}
             >
                 Today
@@ -58,7 +60,10 @@ function Header() {
                         variant={"outline"}
                         className="text-lg rounded-full hover:shadow"
                         onClick={() => {
-                            setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)))
+                            // @ts-ignore
+                            setCurrentDate((prevDate: dayjs.Dayjs) => {
+                                return prevDate.subtract(1, "month")
+                            })
                         }}
                     >
                         <MdNavigateBefore />
@@ -67,7 +72,10 @@ function Header() {
                         variant={"outline"}
                         className="text-lg rounded-full hover:shadow"
                         onClick={() => {
-                            setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)))
+                            // @ts-ignore
+                            setCurrentDate((prevDate: dayjs.Dayjs) => {
+                                return prevDate.add(1, "month")
+                            })
                         }}
                     >
                         <MdNavigateNext />

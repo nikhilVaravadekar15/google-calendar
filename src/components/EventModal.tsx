@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react"
 import dayjs from "dayjs"
 import {
@@ -33,19 +34,36 @@ import { colorLabelClasses } from "../data"
 
 
 function EventModal({
+    column,
     children,
-    column
+    dialogTriggerClassWrapper
 }: {
+    column: dayjs.Dayjs,
     children: React.ReactNode,
-    column: dayjs.Dayjs
+    dialogTriggerClassWrapper: string
 }) {
 
-    const [selectedColorLabel, setSelectedColorLabel] = React.useState<string>(colorLabelClasses[0]);
+    const [title, setTitle] = React.useState<string>("")
+    const [description, setDescription] = React.useState<string>("")
+    const [time, setTime] = React.useState<{ start: string, end: string }>({
+        start: "",
+        end: ""
+    })
+    const [location, setLocation] = React.useState<string>("WFH")
+    const [selectedColorLabel, setSelectedColorLabel] = React.useState<string>(colorLabelClasses[0].color);
 
+    function handleTime(name: string, value: string) {
+        setTime((prevTime: { start: string, end: string }) => {
+            return {
+                ...prevTime,
+                [name]: value
+            }
+        })
+    }
 
     return (
         <Dialog>
-            <DialogTrigger className="border rounded flex justify-center">
+            <DialogTrigger className={`${dialogTriggerClassWrapper}`}>
                 {children}
             </DialogTrigger>
             <DialogContent className="max-w-2xl h-[60%]">
@@ -58,6 +76,10 @@ function EventModal({
                             </span>
                             <Input
                                 type="text"
+                                value={title}
+                                onChange={(event: any) => {
+                                    setTitle(event.target.value)
+                                }}
                             />
                         </div>
                         <div className="flex gap-8 items-center w-full">
@@ -67,13 +89,23 @@ function EventModal({
                             </span>
                             <div className="flex gap-6 items-center">
                                 <Input
+                                    name="start"
                                     type="time"
+                                    value={time.start}
                                     className="w-fit"
+                                    onChange={(event: any) => {
+                                        handleTime(event.target.name, event.target.value)
+                                    }}
                                 />
                                 <span>to</span>
                                 <Input
+                                    name="end"
                                     type="time"
+                                    value={time.end}
                                     className="w-fit"
+                                    onChange={(event: any) => {
+                                        handleTime(event.target.name, event.target.value)
+                                    }}
                                 />
                             </div>
                         </div>
@@ -83,6 +115,10 @@ function EventModal({
                             </span>
                             <Textarea
                                 className="resize-none"
+                                value={description}
+                                onChange={(event: any) => {
+                                    setDescription(event.target.value)
+                                }}
                             />
                         </div>
                         <div className="flex items-center justify-between">
@@ -101,9 +137,14 @@ function EventModal({
                                 <span className="border p-2 rounded-full cursor-pointer shadow hover:shadow-lg">
                                     <MdOutlineLocationOn size="1.25rem" />
                                 </span>
-                                <Select>
+                                <Select
+                                    value={location.toLowerCase()}
+                                    onValueChange={(value: string) => {
+                                        setLocation(value)
+                                    }}
+                                >
                                     <SelectTrigger className="w-[180px]">
-                                        <SelectValue placeholder="Office" />
+                                        <SelectValue placeholder="WFH" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="office">Office</SelectItem>
@@ -119,19 +160,19 @@ function EventModal({
                             </span>
                             <div className="flex gap-1.5 items-center justify-center">
                                 {
-                                    colorLabelClasses.map((color: string, index: number) => {
+                                    colorLabelClasses.map((colorLabel: { color: string, classes: string }, index: number) => {
                                         return (
                                             <TooltipProvider key={index}>
                                                 <Tooltip>
                                                     <TooltipTrigger>
                                                         <span
                                                             onClick={() => {
-                                                                setSelectedColorLabel(colorLabelClasses[index])
+                                                                setSelectedColorLabel(colorLabelClasses[index].color)
                                                             }}
-                                                            className={`bg-${color}-500 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer`}
+                                                            className={`${colorLabel.classes} w-6 h-6 rounded-full flex items-center justify-center cursor-pointer`}
                                                         >
                                                             {
-                                                                selectedColorLabel === color && (
+                                                                selectedColorLabel === colorLabel.color && (
                                                                     <AiOutlineCheck
                                                                         className="text-white text-xs"
                                                                     />
@@ -140,7 +181,7 @@ function EventModal({
                                                         </span>
                                                     </TooltipTrigger>
                                                     <TooltipContent>
-                                                        <p>{color}</p>
+                                                        <p>{colorLabel.color}</p>
                                                     </TooltipContent>
                                                 </Tooltip>
                                             </TooltipProvider>

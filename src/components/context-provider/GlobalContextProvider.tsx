@@ -4,17 +4,24 @@ import GlobalContext from '../../context/GlobalContext'
 
 function GlobalContextProvider({ children }: { children: React.ReactNode }) {
 
-    const [date, setDate] = React.useState<Date>(dayjs().toDate())
+    const [currentDate, setDate] = React.useState<dayjs.Dayjs>(dayjs());
+    const [selectedDay, setSelectedDay] = React.useState<dayjs.Dayjs>(currentDate);
 
-    function setCurrentDate(date: Date) {
+    function setCurrentDate(date: dayjs.Dayjs) {
         setDate(date)
+    }
+
+    function setSelectedDate(date: dayjs.Dayjs) {
+        setSelectedDay(date)
     }
 
     return (
         <GlobalContext.Provider
             value={{
-                currentDate: date,
-                setCurrentDate: setCurrentDate
+                currentDate: currentDate,
+                setCurrentDate: setCurrentDate,
+                selectedDate: selectedDay,
+                setSelectedDate: setSelectedDate
             }}
         >
             {children}

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import {
   MdNavigateBefore,
   MdNavigateNext
@@ -14,24 +13,23 @@ import GlobalContext, { TGlobalContext } from '../context/GlobalContext';
 
 function Smallcalendar() {
 
-  const { currentDate } = React.useContext<TGlobalContext>(GlobalContext)
-  const [currentMonthIdx, setCurrentMonthIdx] = React.useState<number>(currentDate.getMonth());
+  const { currentDate, selectedDate, setSelectedDate } = React.useContext<TGlobalContext>(GlobalContext)
+  const [currentMonthIdx, setCurrentMonthIdx] = React.useState<number>(currentDate.month());
   const [currentMonth, setCurrentMonth] = React.useState<dayjs.Dayjs[][]>(getValidMonth(currentMonthIdx));
-  const [selectedDay, setSelectedDay] = React.useState<dayjs.Dayjs>(dayjs(currentDate));
 
   React.useEffect(() => {
     setCurrentMonth(getValidMonth(currentMonthIdx))
   }, [currentMonthIdx])
 
   React.useEffect(() => {
-    setCurrentMonthIdx(currentDate.getMonth())
+    setCurrentMonthIdx(currentDate.month())
   }, [currentDate])
 
   function getDayClass(day: dayjs.Dayjs) {
     const format: string = "DD-MM-YY";
     const toDay: string = dayjs(new Date()).format(format);
     const givenDay: string = day.format(format);
-    const daySelected: string = selectedDay && selectedDay.format(format);
+    const daySelected: string = selectedDate && selectedDate.format(format);
     if (toDay === givenDay) {
       return "bg-blue-500 rounded-full text-white";
     } else if (givenDay === daySelected) {
@@ -94,8 +92,7 @@ function Smallcalendar() {
                   <button
                     key={j}
                     onClick={() => {
-                      // setSmallSmallcalendarMonth(currentMonthIdx);
-                      setSelectedDay(day);
+                      setSelectedDate(day);
                     }}
                     className={`py-1 w-full ${getDayClass(day)}`}
                   >
