@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react"
 import dayjs from "dayjs"
-import { BigCalenderVariants } from "../data"
-import { motion } from "framer-motion"
-import GlobalContext, { TGlobalContext } from "../context/GlobalContext"
+import { TEvent } from "../types"
 import EventModal from "./EventModal"
+import { motion } from "framer-motion"
+import { BigCalenderVariants } from "../data"
+import GlobalContext, { TGlobalContext } from "../context/GlobalContext"
 
 
 type TContentProps = {
@@ -53,17 +55,33 @@ type TDayProps = {
 
 function Day({ row, col }: TDayProps) {
 
+    const [dailyEvents, setDailyEvents] = React.useState<TEvent[]>([])
+    const { filteredEvents } = React.useContext<TGlobalContext>(GlobalContext)
+
+    React.useEffect(() => {
+        setDailyEvents(() => {
+            const temp: TEvent[] = []
+            for (let index = 0; index < filteredEvents.length; index++) {
+                const event: TEvent = filteredEvents[index];
+                if (event.createdAt && dayjs(event.createdAt).format("DD-MM-YY") === col.format("DD-MM-YY")) {
+                    temp.push(event)
+                }
+            }
+            return temp
+        })
+    }, [filteredEvents])
+
     function getCurrentDate() {
         return col.format("DD-MM-YY") === dayjs().format("DD-MM-YY") && "h-6 w-6 text-white bg-blue-500 rounded-full w-8"
     }
 
     return (
-        <EventModal
-            column={col}
-            dialogTriggerClassWrapper="border rounded flex justify-center"
-        >
-            <div className="flex flex-col">
-                <div className="flex flex-col items-center">
+        <div className="border rounded flex flex-col">
+            <EventModal
+                column={col}
+                dialogTriggerClassWrapper={`w-full flex justify-center ${dailyEvents.length === 0 && "flex-1"}`}
+            >
+                <div className="flex flex-col items-center justify-start">
                     {
                         row === 0 && (
                             <p className="text-sm mt-1">
@@ -75,8 +93,27 @@ function Day({ row, col }: TDayProps) {
                         {col.format("DD").toUpperCase()}
                     </p>
                 </div>
+            </EventModal>
+            <div className="mt-1 flex flex-col">
+                {
+                    dailyEvents.map((event: TEvent, index: number) => {
+                        return (
+                            <EventModal
+                                key={index}
+                                column={col}
+                                event={event}
+                                dialogTriggerClassWrapper={`${event.colorlabel?.classes} w-full p-1 mr-3 text-white text-sm text-start rounded mb-1 cursor-pointer truncate overflow-hidden w-full flex"`}
+                            >
+                                <div title={event.title}>
+                                    {event.title}
+                                </div>
+                            </EventModal>
+                        )
+                    })
+                }
             </div>
-        </EventModal>
+
+        </div >
     )
 }
 
