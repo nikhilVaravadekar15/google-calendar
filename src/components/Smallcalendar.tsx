@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 import { Button } from './ui/button';
 import { motion } from "framer-motion"
 import { getValidMonth } from '../lib/helper';
-import { smallCalenderVariants } from '../data';
+import { smallCalendarVariants } from '../data';
 import GlobalContext, { TGlobalContext } from '../context/GlobalContext';
 
 
@@ -74,7 +74,7 @@ function Smallcalendar() {
         key={currentMonth.toString()}
         initial={"open"}
         animate={"closed"}
-        variants={smallCalenderVariants}
+        variants={smallCalendarVariants}
         className="grid grid-cols-7 grid-rows-6"
       >
         {

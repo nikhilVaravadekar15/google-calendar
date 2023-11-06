@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import { TEvent } from "../types"
 import EventModal from "./EventModal"
 import { motion } from "framer-motion"
-import { BigCalenderVariants } from "../data"
+import { BigCalendarVariants } from "../data"
 import GlobalContext, { TGlobalContext } from "../context/GlobalContext"
 
 
@@ -21,7 +21,7 @@ function CalendarTable({ month }: TContentProps) {
             key={currentDate.toString()}
             initial={"open"}
             animate={"closed"}
-            variants={BigCalenderVariants}
+            variants={BigCalendarVariants}
             className="flex-1 grid grid-cols-7 grid-rows-5 overflow-hidden"
         >
             {

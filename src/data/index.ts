@@ -1,11 +1,11 @@
 import { TColorlabel, TEvent, TLabel } from "../types";
 
-export const BigCalenderVariants = {
+export const BigCalendarVariants = {
     open: { opacity: 1, x: "50%" },
     closed: { opacity: 1, x: "0%" },
 }
 
-export const smallCalenderVariants = {
+export const smallCalendarVariants = {
     open: { opacity: 1, x: "20%" },
     closed: { opacity: 1, x: "0%" },
 }

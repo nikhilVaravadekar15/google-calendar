@@ -31,7 +31,7 @@ function Sidebar() {
             </div>
             <Smallcalendar />
             <div className="p-4 h-full flex gap-2 flex-col border rounded-md overflow-y-scroll">
-                <span className="text-sm font-semibold">My calender</span>
+                <span className="text-sm font-semibold">My calendar</span>
                 <div className="flex gap-2 flex-col">
                     {
                         labels.map((label: TLabel, index: number) => {

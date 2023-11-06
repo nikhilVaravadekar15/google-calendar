@@ -13,7 +13,7 @@ import {
     SelectValue,
 } from "./ui/select"
 import { Button } from './ui/button'
-import { BigCalenderVariants } from '../data'
+import { BigCalendarVariants } from '../data'
 import { motion } from "framer-motion"
 import GlobalContext, { TGlobalContext } from '../context/GlobalContext'
 
@@ -30,7 +30,7 @@ function Header() {
                     src="/icons__google-calendar-48.png"
                     className="w-11 h-11"
                 />
-                <h1 className="text-xl text-gray-500 font-bold">Calender</h1>
+                <h1 className="text-xl text-gray-500 font-bold">Calendar</h1>
             </div>
             <Button
                 disabled={currentDate.month() === dayjs().month() ? true : false}
@@ -85,7 +85,7 @@ function Header() {
                     key={currentDate.toString()}
                     initial={"open"}
                     animate={"closed"}
-                    variants={BigCalenderVariants}
+                    variants={BigCalendarVariants}
                     className="flex gap-1 items-center text-xl tracking-tight"
                 >
                     <span>

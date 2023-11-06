@@ -1,8 +1,14 @@
 {
-  "name": "gcalendar",
+  "name": "google-calendar",
+  "description": "google-calendar clone vite/react & typescript",
   "private": true,
+  "url":"https://github.com/nikhilVaravadekar15/google-calendar",
   "version": "0.0.2",
   "type": "module",
+  "author": {
+    "name": "nikhilVaravadekar15",
+    "url": "https://github.com/nikhilVaravadekar15"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
